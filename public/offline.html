@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#000d29">
+        <link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48">
+        <title>Offline · District III</title>
+        <style>
+            :root {
+                color-scheme: dark;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1.5rem;
+                background: #000d29;
+                color: #ffffff;
+                font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+                text-align: center;
+            }
+
+            main {
+                max-width: 22rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            img {
+                width: 7rem;
+                height: 7rem;
+                filter: drop-shadow(0 8px 24px rgba(233, 195, 73, 0.35));
+            }
+
+            h1 {
+                margin: 0;
+                font-family: Merriweather, Georgia, serif;
+                font-size: 1.5rem;
+            }
+
+            p {
+                margin: 0;
+                color: #b4c6f3;
+                line-height: 1.5;
+            }
+
+            button {
+                margin-top: 0.5rem;
+                padding: 0.7rem 1.5rem;
+                border: 0;
+                border-radius: 0.25rem;
+                background: #fed65b;
+                color: #241a00;
+                font: inherit;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #ffe088;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <img src="/icons/icon-192.png" alt="">
+            <h1>You're offline</h1>
+            <p>District III needs an internet connection to load member and club information. Check your connection and try again.</p>
+            <button type="button" onclick="window.location.reload()">Try again</button>
+        </main>
+    </body>
+</html>

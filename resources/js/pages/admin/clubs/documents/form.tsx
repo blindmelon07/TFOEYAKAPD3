@@ -5,10 +5,13 @@ import {
     inputClassName,
     SubmitButton,
 } from '@/components/admin/form-fields';
+import {
+    RichTextEditor,
+    toEditorHtml,
+} from '@/components/admin/rich-text-editor';
 import { Icon } from '@/components/icon';
 import AdminLayout from '@/layouts/admin-layout';
-import { cn } from '@/lib/utils';
-import { index, store, update } from '@/routes/admin/clubs/documents';
+import { download, index, store, update } from '@/routes/admin/clubs/documents';
 
 type EditableDocument = {
     id: number;
@@ -59,16 +62,12 @@ function PaperPreview({
             <p className="mt-[2%] text-right font-[family-name:Arial] text-[0.55rem] text-black">
                 {longDate(date)}
             </p>
-            <div className="mt-[3%] flex flex-col gap-[0.35rem] font-[family-name:Arial] text-[0.5rem] leading-snug text-black">
-                {body.split('\n').map((line, lineNumber) => (
-                    <p
-                        key={lineNumber}
-                        className="min-h-[0.5rem] text-justify whitespace-pre-wrap"
-                    >
-                        {line}
-                    </p>
-                ))}
-            </div>
+            <div
+                className="rich-text rich-text-preview mt-[3%] font-[family-name:Arial] text-[0.5rem] leading-snug text-black"
+                // The HTML comes from the editor, whose schema only allows the
+                // formatting configured in rich-text-editor.tsx.
+                dangerouslySetInnerHTML={{ __html: body }}
+            />
         </div>
     );
 }
@@ -86,12 +85,43 @@ export default function DocumentForm({
 }) {
     const [title, setTitle] = useState(document?.title ?? '');
     const [date, setDate] = useState(document?.document_date ?? today);
-    const [body, setBody] = useState(document?.body ?? '');
+    const [body, setBody] = useState(() =>
+        toEditorHtml(document?.body ?? null),
+    );
 
     return (
         <AdminLayout
-            title={document ? 'Edit document' : 'New document'}
+            title={document ? 'Edit form' : 'New form'}
             description={`${club.name} · printed on the ${hasOwnLetterhead ? 'club' : 'district'} letterhead`}
+            actions={
+                document && (
+                    <a
+                        href={download.url({
+                            club: club.id,
+                            document: document.id,
+                        })}
+                        onClick={(event) => {
+                            const hasUnsavedChanges =
+                                title !== document.title ||
+                                date !== document.document_date ||
+                                body !== toEditorHtml(document.body);
+
+                            if (
+                                hasUnsavedChanges &&
+                                !window.confirm(
+                                    'You have unsaved changes. The download uses the last saved version. Download anyway?',
+                                )
+                            ) {
+                                event.preventDefault();
+                            }
+                        }}
+                        className="inline-flex flex-1 items-center justify-center gap-2 rounded bg-primary-container px-4 py-2.5 text-label-md text-on-primary transition-colors hover:bg-[#1e3a8a] sm:flex-none"
+                    >
+                        <Icon name="download" className="text-[20px]" />
+                        <span>Download .docx</span>
+                    </a>
+                )
+            }
         >
             <div className="grid grid-cols-1 gap-space-lg lg:grid-cols-[minmax(0,1fr)_18rem]">
                 <Form
@@ -143,24 +173,14 @@ export default function DocumentForm({
                                 name="body"
                                 label="Content"
                                 error={errors.body}
-                                help="Each line becomes a paragraph. Leave a blank line for extra space."
+                                help="Bold, lists, alignment and tables all carry over into the Word file."
                             >
-                                <textarea
-                                    id="body"
-                                    name="body"
-                                    rows={16}
-                                    value={body}
-                                    onChange={(event) =>
-                                        setBody(event.target.value)
-                                    }
-                                    placeholder={
-                                        'To: All Kuya and Ate of the club\nFrom: The Club Secretary\nSubject: …\n\nDear Brothers and Sisters,\n…'
-                                    }
-                                    className={cn(
-                                        inputClassName,
-                                        'font-[family-name:Arial] leading-relaxed',
-                                    )}
+                                <RichTextEditor
+                                    initialContent={body}
+                                    onChange={setBody}
+                                    hasError={Boolean(errors.body)}
                                 />
+                                <input type="hidden" name="body" value={body} />
                             </FieldWrapper>
 
                             <div className="flex flex-wrap items-center justify-end gap-3 border-t border-surface-container pt-space-lg">
@@ -171,9 +191,7 @@ export default function DocumentForm({
                                     Cancel
                                 </Link>
                                 <SubmitButton processing={processing}>
-                                    {document
-                                        ? 'Save changes'
-                                        : 'Save document'}
+                                    {document ? 'Save changes' : 'Save form'}
                                 </SubmitButton>
                             </div>
                         </>

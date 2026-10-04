@@ -68,19 +68,43 @@ describe('documents', function () {
                 ->where('canManageLetterhead', false));
     });
 
-    it('lets an officer save a document', function () {
-        $this->actingAs($this->secretary)
+    it('lets an officer save a document and stay on it to download', function () {
+        $response = $this->actingAs($this->secretary)
             ->post(route('admin.clubs.documents.store', $this->club), [
                 'title' => 'MEMORANDUM',
                 'document_date' => '2026-10-05',
                 'body' => "To all members:\nPlease attend.",
-            ])
-            ->assertRedirect(route('admin.clubs.documents.index', $this->club));
+            ]);
 
         $document = $this->club->documents()->sole();
 
+        $response->assertRedirect(route('admin.clubs.documents.edit', [$this->club, $document]));
+
         expect($document->title)->toBe('MEMORANDUM')
             ->and($document->created_by)->toBe($this->secretary->id);
+    });
+
+    it('saves rich text and strips anything the editor does not allow', function () {
+        $this->actingAs($this->secretary)
+            ->post(route('admin.clubs.documents.store', $this->club), [
+                'title' => 'Notice',
+                'document_date' => '2026-10-05',
+                'body' => '<p style="text-align: center"><strong>Hello</strong></p><script>alert(1)</script><p onclick="x()">World</p>',
+            ]);
+
+        expect($this->club->documents()->sole()->body)
+            ->toBe('<p style="text-align: center"><strong>Hello</strong></p><p>World</p>');
+    });
+
+    it('shows a plain-text excerpt of rich text in the list', function () {
+        ClubDocument::factory()->for($this->club)->create([
+            'body' => '<p><strong>Dear</strong> members,</p><ul><li><p>Bring&nbsp;IDs</p></li></ul>',
+        ]);
+
+        $this->actingAs($this->secretary)
+            ->get(route('admin.clubs.documents.index', $this->club))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('documents.0.excerpt', 'Dear members, Bring IDs'));
     });
 
     it('requires a title and date', function () {
@@ -98,7 +122,7 @@ describe('documents', function () {
                 'document_date' => '2026-10-05',
                 'body' => 'Join us.',
             ])
-            ->assertRedirect(route('admin.clubs.documents.index', $this->club));
+            ->assertRedirect(route('admin.clubs.documents.edit', [$this->club, $document]));
 
         expect($document->fresh()->title)->toBe('INVITATION');
     });

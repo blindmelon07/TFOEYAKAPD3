@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { roleLabel, UserMenu } from '@/components/admin/user-menu';
 import { Icon } from '@/components/icon';
 import { cn } from '@/lib/utils';
-import { dashboard } from '@/routes/admin';
+import { dashboard, forms } from '@/routes/admin';
 import { index as clubsIndex } from '@/routes/admin/clubs';
 import { index as documentsIndex } from '@/routes/admin/clubs/documents';
 import { index as duesRatesIndex } from '@/routes/admin/clubs/dues-rates';
@@ -53,11 +53,19 @@ function buildNavigation(auth: Auth): NavigationGroup[] {
                 href: duesRatesIndex.url(auth.officerClubId),
             },
             {
-                label: 'Documents',
+                label: 'Forms',
                 icon: 'description',
                 href: documentsIndex.url(auth.officerClubId),
             },
         );
+    }
+
+    if (auth.can.manageClubs) {
+        membershipItems.push({
+            label: 'Forms',
+            icon: 'description',
+            href: forms.url(),
+        });
     }
 
     if (!auth.can.viewMembers && auth.memberId) {

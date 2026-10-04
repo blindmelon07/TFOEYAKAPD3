@@ -108,3 +108,77 @@
     font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
+
+/*
+ * Content written in the rich text editor (club forms), and its preview.
+ * Mirrors what App\Services\LetterheadRenderer puts in the Word file.
+ */
+@layer components {
+    .rich-text p {
+        margin: 0 0 0.6em;
+        min-height: 1em;
+    }
+
+    .rich-text ul,
+    .rich-text ol {
+        margin: 0 0 0.6em;
+        padding-left: 1.75em;
+    }
+
+    .rich-text ul {
+        list-style: disc;
+    }
+
+    .rich-text ol {
+        list-style: decimal;
+    }
+
+    .rich-text li > p {
+        margin-bottom: 0.2em;
+    }
+
+    .rich-text table {
+        width: 100%;
+        margin: 0 0 0.6em;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .rich-text th,
+    .rich-text td {
+        position: relative;
+        border: 1px solid #44474e;
+        padding: 0.3em 0.5em;
+        vertical-align: top;
+    }
+
+    .rich-text th {
+        background: #ebeef3;
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .rich-text th > p,
+    .rich-text td > p {
+        margin: 0;
+    }
+
+    .rich-text .selectedCell::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgb(254 214 91 / 0.35);
+        pointer-events: none;
+    }
+
+    .rich-text-preview p {
+        margin-bottom: 0.45em;
+        min-height: 0.5em;
+    }
+
+    .rich-text-preview th,
+    .rich-text-preview td {
+        border-width: 0.5px;
+        padding: 0.15em 0.3em;
+    }
+}

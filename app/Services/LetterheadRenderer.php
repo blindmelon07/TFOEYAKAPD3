@@ -15,6 +15,9 @@ use ZipArchive;
  * adding body paragraphs, leaving the template's banner, fonts, page size and
  * margins untouched.
  *
+ * The body may be rich text (HTML from the forms editor) or plain text; see
+ * HtmlToWordConverter for the formatting carried over.
+ *
  * Placeholders such as "[title]" or "{date}" are matched across a paragraph's
  * text runs, so they still work when Word splits them into several runs. A
  * paragraph containing only "{body}" is replaced by the body; otherwise the
@@ -27,6 +30,8 @@ class LetterheadRenderer
     private const string XML_NAMESPACE = 'http://www.w3.org/XML/1998/namespace';
 
     private const string BODY_PLACEHOLDER = '{body}';
+
+    public function __construct(private HtmlToWordConverter $converter = new HtmlToWordConverter) {}
 
     /**
      * Render a filled-in copy of the template and return its temporary path.
@@ -122,12 +127,12 @@ class LetterheadRenderer
     {
         $xpath = $this->xpath($document);
         $paragraphs = $this->elements($xpath, '//w:body/w:p');
-        $lines = $this->bodyLines($body);
+        $blocks = $this->converter->convert($document, $body);
 
         foreach ($paragraphs as $paragraph) {
             if (trim($this->textOf($xpath, $paragraph)) === self::BODY_PLACEHOLDER) {
-                foreach ($lines as $line) {
-                    $paragraph->parentNode?->insertBefore($this->paragraph($document, $line), $paragraph);
+                foreach ($blocks as $block) {
+                    $paragraph->parentNode?->insertBefore($block, $paragraph);
                 }
 
                 $paragraph->parentNode?->removeChild($paragraph);
@@ -136,7 +141,7 @@ class LetterheadRenderer
             }
         }
 
-        if ($lines === []) {
+        if ($blocks === []) {
             return;
         }
 
@@ -150,8 +155,8 @@ class LetterheadRenderer
 
         $nextSibling = $anchor->nextSibling;
 
-        foreach (['', ...$lines] as $line) {
-            $anchor->parentNode?->insertBefore($this->paragraph($document, $line), $nextSibling);
+        foreach ([$this->converter->spacer($document), ...$blocks] as $block) {
+            $anchor->parentNode?->insertBefore($block, $nextSibling);
         }
     }
 
@@ -196,64 +201,6 @@ class LetterheadRenderer
             fn (DOMElement $textNode): string => $textNode->textContent,
             $this->elements($xpath, './/w:t', $paragraph),
         ));
-    }
-
-    /**
-     * Split the body into lines, dropping trailing blank lines.
-     *
-     * @return list<string>
-     */
-    private function bodyLines(string $body): array
-    {
-        $lines = preg_split('/\R/', $body) ?: [];
-
-        while ($lines !== [] && trim((string) end($lines)) === '') {
-            array_pop($lines);
-        }
-
-        return $lines;
-    }
-
-    /**
-     * Build a justified Arial 12pt paragraph, matching the template's text style.
-     */
-    private function paragraph(DOMDocument $document, string $text): DOMElement
-    {
-        $paragraph = $this->element($document, 'w:p');
-
-        $properties = $paragraph->appendChild($this->element($document, 'w:pPr'));
-        $properties->appendChild($this->element($document, 'w:spacing', ['w:after' => '120', 'w:line' => '276', 'w:lineRule' => 'auto']));
-        $properties->appendChild($this->element($document, 'w:jc', ['w:val' => 'both']));
-
-        if ($text === '') {
-            return $paragraph;
-        }
-
-        $run = $paragraph->appendChild($this->element($document, 'w:r'));
-        $runProperties = $run->appendChild($this->element($document, 'w:rPr'));
-        $runProperties->appendChild($this->element($document, 'w:rFonts', ['w:ascii' => 'Arial', 'w:hAnsi' => 'Arial', 'w:cs' => 'Arial']));
-        $runProperties->appendChild($this->element($document, 'w:sz', ['w:val' => '24']));
-        $runProperties->appendChild($this->element($document, 'w:szCs', ['w:val' => '24']));
-
-        $textNode = $this->element($document, 'w:t');
-        $run->appendChild($textNode);
-        $this->setText($textNode, $text);
-
-        return $paragraph;
-    }
-
-    /**
-     * @param  array<string, string>  $attributes
-     */
-    private function element(DOMDocument $document, string $name, array $attributes = []): DOMElement
-    {
-        $element = $document->createElementNS(self::WORD_NAMESPACE, $name);
-
-        foreach ($attributes as $attribute => $value) {
-            $element->setAttributeNS(self::WORD_NAMESPACE, $attribute, $value);
-        }
-
-        return $element;
     }
 
     private function setText(DOMElement $textNode, string $text): void

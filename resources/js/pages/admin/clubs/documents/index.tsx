@@ -2,7 +2,7 @@ import { Form, Link, router, usePage } from '@inertiajs/react';
 import { SubmitButton } from '@/components/admin/form-fields';
 import { Icon } from '@/components/icon';
 import AdminLayout from '@/layouts/admin-layout';
-import { index as clubsIndex } from '@/routes/admin/clubs';
+import { forms } from '@/routes/admin';
 import {
     create,
     destroy,
@@ -191,15 +191,15 @@ export default function ClubDocuments({
 
     return (
         <AdminLayout
-            title={`${club.name} Documents`}
-            description="Letters, memos and forms, printed on your letterhead automatically."
+            title={`${club.name} Forms`}
+            description="Forms, letters and memos, printed on your letterhead automatically."
             actions={
                 <Link
                     href={create.url(club.id)}
                     className="inline-flex flex-1 items-center justify-center gap-2 rounded bg-primary-container px-4 py-2.5 text-label-md text-on-primary transition-colors hover:bg-[#1e3a8a] sm:flex-none"
                 >
                     <Icon name="note_add" className="text-[20px]" />
-                    <span>New document</span>
+                    <span>New form</span>
                 </Link>
             }
         >
@@ -217,7 +217,7 @@ export default function ClubDocuments({
                             className="text-[44px] text-outline"
                         />
                         <h2 className="font-serif text-title font-bold text-primary">
-                            No documents yet
+                            No forms yet
                         </h2>
                         <p className="max-w-sm text-body-md text-on-surface-variant">
                             Write a letter, memo or form once, then download it
@@ -229,7 +229,7 @@ export default function ClubDocuments({
                             className="mt-2 inline-flex items-center gap-2 rounded bg-primary-container px-4 py-2.5 text-label-md text-on-primary hover:bg-[#1e3a8a]"
                         >
                             <Icon name="note_add" className="text-[20px]" />
-                            Write the first document
+                            Create the first form
                         </Link>
                     </div>
                 ) : (
@@ -316,10 +316,10 @@ export default function ClubDocuments({
 
                 {auth.can.manageClubs && (
                     <Link
-                        href={clubsIndex.url()}
+                        href={forms.url()}
                         className="self-start text-label-md text-primary hover:underline"
                     >
-                        ← Back to clubs
+                        ← Back to all clubs
                     </Link>
                 )}
             </div>

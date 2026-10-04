@@ -32,7 +32,7 @@ class ClubDocumentController extends Controller
                 'id' => $document->id,
                 'title' => $document->title,
                 'document_date' => $document->document_date->format('Y-m-d'),
-                'excerpt' => str($document->body ?? '')->squish()->limit(140)->toString(),
+                'excerpt' => $document->plainTextExcerpt(),
                 'author' => $document->author?->name,
                 'updated_at' => $document->updated_at?->toIso8601String(),
             ]);
@@ -69,9 +69,9 @@ class ClubDocumentController extends Controller
         $document->created_by = $request->user()?->id;
         $club->documents()->save($document);
 
-        Inertia::flash('success', "“{$document->title}” saved.");
+        Inertia::flash('success', "“{$document->title}” saved. You can download it now.");
 
-        return to_route('admin.clubs.documents.index', $club);
+        return to_route('admin.clubs.documents.edit', [$club, $document]);
     }
 
     /**
@@ -101,9 +101,9 @@ class ClubDocumentController extends Controller
     {
         $document->update($request->validated());
 
-        Inertia::flash('success', "“{$document->title}” updated.");
+        Inertia::flash('success', "“{$document->title}” saved. You can download it now.");
 
-        return to_route('admin.clubs.documents.index', $club);
+        return to_route('admin.clubs.documents.edit', [$club, $document]);
     }
 
     /**

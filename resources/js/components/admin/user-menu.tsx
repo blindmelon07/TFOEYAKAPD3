@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/icon';
+import { InstallAppButton } from '@/components/install-app-button';
 import { cn } from '@/lib/utils';
 import { home } from '@/routes';
 import { logout } from '@/routes/admin';
@@ -157,6 +158,7 @@ export function UserMenu({ variant }: { variant: 'sidebar' | 'compact' }) {
                         />
                         Login & Password
                     </Link>
+                    <InstallAppButton variant="menu-item" />
                     <a
                         href={home.url()}
                         target="_blank"

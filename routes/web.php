@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ClubLetterheadController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DuesPaymentController;
 use App\Http\Controllers\Admin\DuesRateController;
+use App\Http\Controllers\Admin\FormsController;
 use App\Http\Controllers\Admin\FundAllocationController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\MembershipStepController;
@@ -41,6 +42,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('account', [AccountController::class, 'edit'])->name('account.edit');
     Route::put('account', [AccountController::class, 'update'])->name('account.update');
+
+    Route::get('forms', FormsController::class)->name('forms');
 
     Route::resource('clubs', ClubController::class)->except('show');
     Route::scopeBindings()->group(function () {

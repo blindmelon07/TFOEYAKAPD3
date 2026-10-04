@@ -66,6 +66,7 @@ class HandleInertiaRequests extends Middleware
                 'manageSite' => $user?->can('manage-site') ?? false,
                 'manageClubs' => $user?->can('viewAny', Club::class) ?? false,
                 'viewMembers' => $user?->can('viewAny', Member::class) ?? false,
+                'useForms' => $user !== null && ($user->isDistrictAdmin() || $user->isClubOfficer()),
             ],
         ];
     }

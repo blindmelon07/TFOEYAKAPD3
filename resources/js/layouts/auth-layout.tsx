@@ -1,6 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import type { ReactNode } from 'react';
 import { Icon } from '@/components/icon';
+import { InstallAppButton } from '@/components/install-app-button';
 import { home } from '@/routes';
 
 /**
@@ -60,6 +61,11 @@ export default function AuthLayout({
                     <div className="rounded-lg border-t-[3px] border-secondary-fixed-dim bg-surface-container-lowest p-space-xl shadow-[0_16px_32px_rgba(15,35,71,0.2)]">
                         {children}
                     </div>
+
+                    <InstallAppButton
+                        variant="banner"
+                        className="mt-space-md"
+                    />
 
                     <div className="mt-space-lg flex flex-col items-center gap-2 text-center">
                         {footer}

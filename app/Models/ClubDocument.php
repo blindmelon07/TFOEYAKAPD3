@@ -64,6 +64,19 @@ class ClubDocument extends Model
     }
 
     /**
+     * Get a short plain-text preview of the body for listings.
+     */
+    public function plainTextExcerpt(int $length = 140): string
+    {
+        $withSpaces = preg_replace('#<(br|/p|/li|/td|/th|/tr)[^>]*>#i', ' ', (string) $this->body) ?? '';
+
+        return Str::of(html_entity_decode(strip_tags($withSpaces), ENT_QUOTES | ENT_HTML5))
+            ->squish()
+            ->limit($length)
+            ->toString();
+    }
+
+    /**
      * Get the file name used when the document is downloaded.
      */
     public function downloadName(): string

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Club;
+use App\Services\RichTextSanitizer;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +30,19 @@ class ClubDocumentRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'document_date' => ['required', 'date'],
-            'body' => ['nullable', 'string', 'max:20000'],
+            'body' => ['nullable', 'string', 'max:200000'],
         ];
+    }
+
+    /**
+     * Strip any formatting the editor does not offer before validating.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('body'))) {
+            $this->merge([
+                'body' => app(RichTextSanitizer::class)->sanitize($this->input('body')),
+            ]);
+        }
     }
 }

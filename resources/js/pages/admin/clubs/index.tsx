@@ -214,7 +214,7 @@ function ClubCard({
                     className="inline-flex items-center justify-center gap-1.5 rounded border border-secondary-fixed-dim px-2 py-2 text-label-md text-primary transition-colors hover:bg-[#d4af37]/10"
                 >
                     <Icon name="description" className="text-[18px]" />
-                    Docs
+                    Forms
                 </Link>
             </div>
         </article>

@@ -14,5 +14,6 @@ export type Auth = {
         manageSite: boolean;
         manageClubs: boolean;
         viewMembers: boolean;
+        useForms: boolean;
     };
 };
