@@ -46,7 +46,7 @@ const settingGroups: SettingGroup[] = [
             {
                 key: 'member_portal_url',
                 label: 'Member Portal link',
-                help: 'Full URL (https://…) or # to disable.',
+                help: 'Leave blank to open this site’s member login. Enter a full URL (https://…) to send members elsewhere.',
             },
         ],
     },

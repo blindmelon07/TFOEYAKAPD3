@@ -45,7 +45,7 @@ class Setting extends Model
 
             'header_title' => 'The Fraternal Order of Eagles',
             'header_subtitle' => 'Philippine Eagles | YAKAP Chapter',
-            'member_portal_url' => '#',
+            'member_portal_url' => '',
 
             'hero_location' => 'Sorsogon Eagles District III • Sorsogon City, Philippines',
             'hero_motto' => 'Alang-Alang sa Diyos at Sambayanang Pilipino',

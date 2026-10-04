@@ -4,10 +4,11 @@ import type { ReactNode } from 'react';
 import { roleLabel, UserMenu } from '@/components/admin/user-menu';
 import { Icon } from '@/components/icon';
 import { cn } from '@/lib/utils';
-import { dashboard, forms } from '@/routes/admin';
+import { dashboard, forms, reports } from '@/routes/admin';
 import { index as clubsIndex } from '@/routes/admin/clubs';
 import { index as documentsIndex } from '@/routes/admin/clubs/documents';
 import { index as duesRatesIndex } from '@/routes/admin/clubs/dues-rates';
+import { index as reportsIndex } from '@/routes/admin/clubs/reports';
 import { index as fundAllocationsIndex } from '@/routes/admin/fund-allocations';
 import {
     index as membersIndex,
@@ -57,15 +58,27 @@ function buildNavigation(auth: Auth): NavigationGroup[] {
                 icon: 'description',
                 href: documentsIndex.url(auth.officerClubId),
             },
+            {
+                label: 'Reports',
+                icon: 'monitoring',
+                href: reportsIndex.url(auth.officerClubId),
+            },
         );
     }
 
     if (auth.can.manageClubs) {
-        membershipItems.push({
-            label: 'Forms',
-            icon: 'description',
-            href: forms.url(),
-        });
+        membershipItems.push(
+            {
+                label: 'Forms',
+                icon: 'description',
+                href: forms.url(),
+            },
+            {
+                label: 'Reports',
+                icon: 'monitoring',
+                href: reports.url(),
+            },
+        );
     }
 
     if (!auth.can.viewMembers && auth.memberId) {

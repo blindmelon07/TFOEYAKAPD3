@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ChapterStatController;
 use App\Http\Controllers\Admin\ClubController;
 use App\Http\Controllers\Admin\ClubDocumentController;
 use App\Http\Controllers\Admin\ClubLetterheadController;
+use App\Http\Controllers\Admin\ClubReportController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DuesPaymentController;
 use App\Http\Controllers\Admin\DuesRateController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\MembershipStepController;
 use App\Http\Controllers\Admin\MissionController;
 use App\Http\Controllers\Admin\PillarController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -44,6 +46,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('account', [AccountController::class, 'update'])->name('account.update');
 
     Route::get('forms', FormsController::class)->name('forms');
+    Route::get('reports', ReportsController::class)->name('reports');
 
     Route::resource('clubs', ClubController::class)->except('show');
     Route::scopeBindings()->group(function () {
@@ -54,6 +57,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('clubs.documents', ClubDocumentController::class)->except('show');
         Route::post('clubs/{club}/documents/{document}/duplicate', [ClubDocumentController::class, 'duplicate'])->name('clubs.documents.duplicate');
         Route::get('clubs/{club}/documents/{document}/download', [ClubDocumentController::class, 'download'])->name('clubs.documents.download');
+
+        Route::get('clubs/{club}/reports', [ClubReportController::class, 'index'])->name('clubs.reports.index');
+        Route::get('clubs/{club}/reports/{report}', [ClubReportController::class, 'show'])->name('clubs.reports.show');
+        Route::get('clubs/{club}/reports/{report}/print', [ClubReportController::class, 'print'])->name('clubs.reports.print');
+        Route::get('clubs/{club}/reports/{report}/word', [ClubReportController::class, 'word'])->name('clubs.reports.word');
+        Route::get('clubs/{club}/reports/{report}/csv', [ClubReportController::class, 'csv'])->name('clubs.reports.csv');
 
         Route::get('clubs/{club}/letterhead', [ClubLetterheadController::class, 'show'])->name('clubs.letterhead.show');
         Route::post('clubs/{club}/letterhead', [ClubLetterheadController::class, 'store'])->name('clubs.letterhead.store');

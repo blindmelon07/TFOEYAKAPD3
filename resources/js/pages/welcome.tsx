@@ -6,6 +6,7 @@ import { Icon } from '@/components/icon';
 import { fundAllocationColorClasses } from '@/lib/content';
 import { cn } from '@/lib/utils';
 import { home } from '@/routes';
+import { dashboard } from '@/routes/admin';
 import type {
     ChapterStat,
     FundAllocation,
@@ -114,8 +115,17 @@ function ExternalOrAnchor({
     );
 }
 
+/**
+ * The Member Portal opens this site's member area (the login page for
+ * guests) unless a custom link has been set in the admin settings.
+ */
+function memberPortalUrl(customUrl: string | null): string {
+    return customUrl && customUrl !== '#' ? customUrl : dashboard.url();
+}
+
 function SiteHeader({ settings }: { settings: SiteSettings }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const portalUrl = memberPortalUrl(settings.member_portal_url);
 
     return (
         <header className="fixed top-0 z-50 w-full bg-surface/95 shadow-[0_1px_8px_rgba(15,35,71,0.06)] backdrop-blur-md">
@@ -164,17 +174,21 @@ function SiteHeader({ settings }: { settings: SiteSettings }) {
 
                 <div className="flex items-center gap-space-md">
                     <ExternalOrAnchor
-                        href={settings.member_portal_url}
+                        href={portalUrl}
                         className="hidden items-center justify-center rounded bg-secondary-container px-space-md py-space-xs text-label-md text-on-secondary-container shadow-sm transition-colors hover:bg-secondary-fixed hover:text-on-secondary-fixed md:inline-flex"
                     >
                         Member Portal
                     </ExternalOrAnchor>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary">
+                    <a
+                        href={portalUrl}
+                        aria-label="Member Portal"
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-primary transition-colors hover:bg-primary-container"
+                    >
                         <Icon
                             name="person"
                             className="text-[18px] text-on-primary"
                         />
-                    </div>
+                    </a>
                     <button
                         type="button"
                         onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
@@ -203,7 +217,7 @@ function SiteHeader({ settings }: { settings: SiteSettings }) {
                         </a>
                     ))}
                     <ExternalOrAnchor
-                        href={settings.member_portal_url}
+                        href={portalUrl}
                         className="mt-space-xs rounded bg-secondary-container px-space-sm py-space-sm text-center text-label-md text-on-secondary-container md:hidden"
                     >
                         Member Portal

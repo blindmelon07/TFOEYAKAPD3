@@ -49,6 +49,14 @@ class ClubPolicy
     }
 
     /**
+     * Determine whether the user can view and export the club's reports.
+     */
+    public function viewReports(User $user, Club $club): bool
+    {
+        return $user->isDistrictAdmin() || $user->isOfficerOf($club->id);
+    }
+
+    /**
      * Determine whether the user can replace the club's letterhead template:
      * district admins and the club president.
      */

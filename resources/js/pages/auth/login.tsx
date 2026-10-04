@@ -7,7 +7,7 @@ import { request as passwordRequest } from '@/routes/password';
 export default function Login() {
     return (
         <AuthLayout
-            title="District Admin"
+            title="Welcome Kuya & Ate!"
             description="Sign in to manage your club, membership and dues."
         >
             <Form

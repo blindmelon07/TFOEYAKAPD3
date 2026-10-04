@@ -40,38 +40,48 @@ class LetterheadRenderer
      */
     public function render(string $templatePath, array $placeholders, string $body): string
     {
-        $outputPath = $this->temporaryPath();
+        $template = new ZipArchive;
 
-        if (! copy($templatePath, $outputPath)) {
-            throw new RuntimeException("Could not copy the letterhead template [{$templatePath}].");
-        }
-
-        $zip = new ZipArchive;
-
-        if ($zip->open($outputPath) !== true) {
+        if ($template->open($templatePath, ZipArchive::RDONLY) !== true) {
             throw new RuntimeException("The letterhead template [{$templatePath}] is not a valid .docx file.");
         }
 
-        for ($index = 0; $index < $zip->numFiles; $index++) {
-            $partName = (string) $zip->getNameIndex($index);
+        // Write a brand-new archive rather than editing a copy of the
+        // template: on Windows, a freshly copied file can still be locked
+        // (e.g. by antivirus scanning) when the archive is saved.
+        $outputPath = $this->temporaryPath();
+        $output = new ZipArchive;
 
-            if (! preg_match('#^word/(document|header\d*|footer\d*)\.xml$#', $partName)) {
-                continue;
-            }
+        if ($output->open($outputPath, ZipArchive::CREATE | ZipArchive::EXCL) !== true) {
+            $template->close();
 
-            $document = new DOMDocument;
-            $document->loadXML((string) $zip->getFromName($partName));
-
-            if ($partName === 'word/document.xml') {
-                $this->insertBody($document, $placeholders, $body);
-            }
-
-            $this->fillPlaceholders($document, $placeholders);
-
-            $zip->addFromString($partName, (string) $document->saveXML());
+            throw new RuntimeException("Could not create the document [{$outputPath}].");
         }
 
-        $zip->close();
+        for ($index = 0; $index < $template->numFiles; $index++) {
+            $partName = (string) $template->getNameIndex($index);
+            $contents = (string) $template->getFromIndex($index);
+
+            if (preg_match('#^word/(document|header\d*|footer\d*)\.xml$#', $partName)) {
+                $document = new DOMDocument;
+                $document->loadXML($contents);
+
+                if ($partName === 'word/document.xml') {
+                    $this->insertBody($document, $placeholders, $body);
+                }
+
+                $this->fillPlaceholders($document, $placeholders);
+                $contents = (string) $document->saveXML();
+            }
+
+            $output->addFromString($partName, $contents);
+        }
+
+        $template->close();
+
+        if (! $output->close()) {
+            throw new RuntimeException("Could not save the document [{$outputPath}].");
+        }
 
         return $outputPath;
     }

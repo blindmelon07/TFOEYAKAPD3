@@ -5,6 +5,7 @@ import AdminLayout from '@/layouts/admin-layout';
 import { create, destroy, edit } from '@/routes/admin/clubs';
 import { index as documentsIndex } from '@/routes/admin/clubs/documents';
 import { index as duesRatesIndex } from '@/routes/admin/clubs/dues-rates';
+import { index as reportsIndex } from '@/routes/admin/clubs/reports';
 import {
     index as membersIndex,
     show as memberShow,
@@ -194,7 +195,7 @@ function ClubCard({
                 })}
             </ul>
 
-            <div className="grid grid-cols-3 gap-2 border-t border-surface-container p-space-md">
+            <div className="grid grid-cols-2 gap-2 border-t border-surface-container p-space-md">
                 <Link
                     href={membersIndex.url({ query: { club: club.id } })}
                     className="inline-flex items-center justify-center gap-1.5 rounded bg-primary-container px-2 py-2 text-label-md text-on-primary transition-colors hover:bg-[#1e3a8a]"
@@ -215,6 +216,13 @@ function ClubCard({
                 >
                     <Icon name="description" className="text-[18px]" />
                     Forms
+                </Link>
+                <Link
+                    href={reportsIndex.url(club.id)}
+                    className="inline-flex items-center justify-center gap-1.5 rounded border border-secondary-fixed-dim px-2 py-2 text-label-md text-primary transition-colors hover:bg-[#d4af37]/10"
+                >
+                    <Icon name="monitoring" className="text-[18px]" />
+                    Reports
                 </Link>
             </div>
         </article>

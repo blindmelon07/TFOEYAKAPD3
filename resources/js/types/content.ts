@@ -67,3 +67,60 @@ export type Paginated<T> = {
     prev_page_url: string | null;
     next_page_url: string | null;
 };
+
+export type ReportValueType = 'text' | 'money' | 'number' | 'date' | 'percent';
+
+export type ReportTone = 'good' | 'warning' | 'critical';
+
+export type ReportCell = string | number | null;
+
+export type ReportColumn = {
+    key: string;
+    label: string;
+    type: ReportValueType;
+};
+
+export type ReportSection = {
+    title: string;
+    columns: ReportColumn[];
+    rows: Record<string, ReportCell>[];
+    totals: Record<string, ReportCell> | null;
+    empty: string;
+};
+
+export type ReportSummaryItem = {
+    label: string;
+    value: ReportCell;
+    type: ReportValueType;
+    tone: ReportTone | null;
+};
+
+export type ReportChart = {
+    kind: 'columns' | 'proportion';
+    title: string;
+    valueType: ReportValueType;
+    points: { label: string; value: number; tone?: ReportTone }[];
+};
+
+export type ReportData = {
+    title: string;
+    period: string;
+    summary: ReportSummaryItem[];
+    charts: ReportChart[];
+    sections: ReportSection[];
+    notice: string | null;
+};
+
+export type ReportFilter = {
+    name: string;
+    label: string;
+    type: 'year' | 'date' | 'select';
+    options?: SelectOption[];
+};
+
+export type ReportCard = {
+    key: string;
+    name: string;
+    description: string;
+    icon: string;
+};
