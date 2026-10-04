@@ -25,11 +25,27 @@ class UpdateAccountRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->managesIdentityThroughMemberProfile()) {
+            return [
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', 'confirmed', Password::defaults()],
+            ];
+        }
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()?->id)],
             'current_password' => ['required', 'current_password'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];
+    }
+
+    /**
+     * Determine whether the user's name and email are owned by their member
+     * record, so they are changed on the profile page instead of here.
+     */
+    public function managesIdentityThroughMemberProfile(): bool
+    {
+        return $this->user()?->member !== null;
     }
 }

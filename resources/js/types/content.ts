@@ -52,3 +52,18 @@ export type MembershipStep = {
     requirement: string;
     sort_order?: number;
 };
+
+export type SelectOption = { value: string; label: string };
+
+export type ClubOption = { id: number; name: string };
+
+export type Paginated<T> = {
+    data: T[];
+    current_page: number;
+    last_page: number;
+    from: number | null;
+    to: number | null;
+    total: number;
+    prev_page_url: string | null;
+    next_page_url: string | null;
+};

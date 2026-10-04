@@ -35,12 +35,10 @@ export default function ContentIndex({
             actions={
                 <Link
                     href={definition.routes.create.url()}
-                    className="inline-flex shrink-0 items-center gap-2 rounded bg-primary-container px-4 py-2.5 text-label-md text-on-primary transition-colors hover:bg-[#1e3a8a]"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded bg-primary-container px-4 py-2.5 text-label-md text-on-primary transition-colors hover:bg-[#1e3a8a] sm:flex-none"
                 >
                     <Icon name="add" className="text-[20px]" />
-                    <span className="hidden sm:inline">
-                        Add {definition.singular}
-                    </span>
+                    <span>Add {definition.singular}</span>
                 </Link>
             }
         >
@@ -63,77 +61,128 @@ export default function ContentIndex({
                         </Link>
                     </div>
                 ) : (
-                    <table className="w-full text-left text-body-sm">
-                        <thead className="border-b border-[#d8dee4] bg-surface-container-low text-label-sm tracking-wider text-on-surface-variant uppercase">
-                            <tr>
-                                <th className="w-16 px-4 py-3">Pos.</th>
-                                {definition.columns.map((column, index) => (
-                                    <th
-                                        key={index}
-                                        className={cn(
-                                            'px-4 py-3',
-                                            column.className,
-                                        )}
-                                    >
-                                        {column.label}
-                                    </th>
-                                ))}
-                                <th className="px-4 py-3 text-right">
-                                    <span className="sr-only">Actions</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#d8dee4]">
+                    <>
+                        <ul className="divide-y divide-[#d8dee4] sm:hidden">
                             {items.map((item) => (
-                                <tr
+                                <li
                                     key={item.id}
-                                    className="transition-colors hover:bg-surface-container-low"
+                                    className="flex items-center gap-3 px-4 py-3"
                                 >
-                                    <td className="px-4 py-3 text-label-sm text-outline">
-                                        {toDisplayText(item.sort_order)}
-                                    </td>
+                                    <Link
+                                        href={definition.routes.edit.url(
+                                            item.id,
+                                        )}
+                                        className="flex min-w-0 flex-1 items-center gap-3 text-body-sm"
+                                    >
+                                        {definition.columns.map(
+                                            (column, index) => (
+                                                <div
+                                                    key={index}
+                                                    className={cn(
+                                                        'min-w-0',
+                                                        column.label === ''
+                                                            ? 'shrink-0'
+                                                            : 'flex-1',
+                                                        column.className?.includes(
+                                                            'hidden',
+                                                        ) && 'hidden',
+                                                    )}
+                                                >
+                                                    {column.render(item)}
+                                                </div>
+                                            ),
+                                        )}
+                                    </Link>
+                                    <button
+                                        type="button"
+                                        aria-label="Delete"
+                                        onClick={() => deleteItem(item)}
+                                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded text-red-700 hover:bg-red-50"
+                                    >
+                                        <Icon
+                                            name="delete"
+                                            className="text-[20px]"
+                                        />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                        <table className="hidden w-full text-left text-body-sm sm:table">
+                            <thead className="border-b border-[#d8dee4] bg-surface-container-low text-label-sm tracking-wider text-on-surface-variant uppercase">
+                                <tr>
+                                    <th className="w-16 px-4 py-3">Pos.</th>
                                     {definition.columns.map((column, index) => (
-                                        <td
+                                        <th
                                             key={index}
                                             className={cn(
                                                 'px-4 py-3',
                                                 column.className,
                                             )}
                                         >
-                                            {column.render(item)}
-                                        </td>
+                                            {column.label}
+                                        </th>
                                     ))}
-                                    <td className="px-4 py-3">
-                                        <div className="flex items-center justify-end gap-1">
-                                            <Link
-                                                href={definition.routes.edit.url(
-                                                    item.id,
-                                                )}
-                                                aria-label="Edit"
-                                                className="flex h-9 w-9 items-center justify-center rounded text-primary hover:bg-surface-container"
-                                            >
-                                                <Icon
-                                                    name="edit"
-                                                    className="text-[20px]"
-                                                />
-                                            </Link>
-                                            <button
-                                                type="button"
-                                                aria-label="Delete"
-                                                onClick={() => deleteItem(item)}
-                                                className="flex h-9 w-9 items-center justify-center rounded text-red-700 hover:bg-red-50"
-                                            >
-                                                <Icon
-                                                    name="delete"
-                                                    className="text-[20px]"
-                                                />
-                                            </button>
-                                        </div>
-                                    </td>
+                                    <th className="px-4 py-3 text-right">
+                                        <span className="sr-only">Actions</span>
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-[#d8dee4]">
+                                {items.map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="transition-colors hover:bg-surface-container-low"
+                                    >
+                                        <td className="px-4 py-3 text-label-sm text-outline">
+                                            {toDisplayText(item.sort_order)}
+                                        </td>
+                                        {definition.columns.map(
+                                            (column, index) => (
+                                                <td
+                                                    key={index}
+                                                    className={cn(
+                                                        'px-4 py-3',
+                                                        column.className,
+                                                    )}
+                                                >
+                                                    {column.render(item)}
+                                                </td>
+                                            ),
+                                        )}
+                                        <td className="px-4 py-3">
+                                            <div className="flex items-center justify-end gap-1">
+                                                <Link
+                                                    href={definition.routes.edit.url(
+                                                        item.id,
+                                                    )}
+                                                    aria-label="Edit"
+                                                    className="flex h-9 w-9 items-center justify-center rounded text-primary hover:bg-surface-container"
+                                                >
+                                                    <Icon
+                                                        name="edit"
+                                                        className="text-[20px]"
+                                                    />
+                                                </Link>
+                                                <button
+                                                    type="button"
+                                                    aria-label="Delete"
+                                                    onClick={() =>
+                                                        deleteItem(item)
+                                                    }
+                                                    className="flex h-9 w-9 items-center justify-center rounded text-red-700 hover:bg-red-50"
+                                                >
+                                                    <Icon
+                                                        name="delete"
+                                                        className="text-[20px]"
+                                                    />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </>
                 )}
             </div>
         </AdminLayout>

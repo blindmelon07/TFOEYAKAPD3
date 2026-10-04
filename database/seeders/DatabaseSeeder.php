@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,10 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->firstOrCreate(
+        $admin = User::query()->firstOrCreate(
             ['email' => 'admin@district3.test'],
-            ['name' => 'Chapter Administrator', 'password' => 'password'],
+            ['name' => 'District Administrator', 'password' => 'password'],
         );
+
+        $admin->forceFill(['role' => UserRole::DistrictAdmin])->save();
 
         $this->call(LandingPageSeeder::class);
     }

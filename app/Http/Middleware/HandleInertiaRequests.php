@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Club;
+use App\Models\Member;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -39,10 +42,31 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
-            'auth' => [
-                'user' => $request->user()?->only('id', 'name', 'email'),
-            ],
+            'auth' => fn (): array => $this->authProps($request->user()),
             'siteLogo' => fn (): ?string => Setting::publicValues()['logo'],
+        ];
+    }
+
+    /**
+     * Get the signed-in user's identity and what the admin navigation should offer them.
+     *
+     * @return array{user: array<string, mixed>|null, memberId: int|null, officerClubId: int|null, can: array<string, bool>}
+     */
+    private function authProps(?User $user): array
+    {
+        return [
+            'user' => $user ? [
+                ...$user->only('id', 'name', 'email'),
+                'role' => $user->role->value,
+                'position' => $user->member?->position->label(),
+            ] : null,
+            'memberId' => $user?->member?->id,
+            'officerClubId' => $user?->isClubOfficer() ? $user->member?->club_id : null,
+            'can' => [
+                'manageSite' => $user?->can('manage-site') ?? false,
+                'manageClubs' => $user?->can('viewAny', Club::class) ?? false,
+                'viewMembers' => $user?->can('viewAny', Member::class) ?? false,
+            ],
         ];
     }
 }

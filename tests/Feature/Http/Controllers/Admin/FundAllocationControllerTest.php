@@ -4,7 +4,7 @@ use App\Models\FundAllocation;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->districtAdmin()->create());
 });
 
 it('creates an allocation', function () {

@@ -2,13 +2,17 @@ export type User = {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+    role: 'district_admin' | 'member';
+    position: string | null;
 };
 
 export type Auth = {
-    user: Pick<User, 'id' | 'name' | 'email'> | null;
+    user: User | null;
+    memberId: number | null;
+    officerClubId: number | null;
+    can: {
+        manageSite: boolean;
+        manageClubs: boolean;
+        viewMembers: boolean;
+    };
 };

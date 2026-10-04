@@ -331,9 +331,9 @@ export default function Settings({
                             </section>
                         ))}
 
-                        <div className="sticky bottom-4 flex items-center justify-end gap-3 rounded-lg border border-[#d8dee4] bg-surface-container-lowest/95 px-space-lg py-space-md shadow-[0_8px_16px_rgba(15,35,71,0.08)] backdrop-blur-md">
+                        <div className="sticky bottom-4 flex flex-wrap items-center justify-end gap-3 rounded-lg border border-[#d8dee4] bg-surface-container-lowest/95 px-space-lg py-space-md shadow-[0_8px_16px_rgba(15,35,71,0.08)] backdrop-blur-md">
                             {hasErrors && (
-                                <p className="mr-auto text-body-sm text-red-700">
+                                <p className="w-full text-body-sm text-red-700 sm:mr-auto sm:w-auto">
                                     Some fields need attention. Scroll up to fix
                                     them.
                                 </p>

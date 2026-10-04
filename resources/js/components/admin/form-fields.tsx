@@ -50,6 +50,7 @@ export function TextField({
     error,
     help,
     type = 'text',
+    step,
     required,
     className,
 }: {
@@ -58,7 +59,8 @@ export function TextField({
     defaultValue?: string | number | null;
     error?: string;
     help?: ReactNode;
-    type?: 'text' | 'number' | 'email' | 'password';
+    type?: 'text' | 'number' | 'email' | 'password' | 'date';
+    step?: string;
     required?: boolean;
     className?: string;
 }) {
@@ -74,6 +76,7 @@ export function TextField({
                 id={name}
                 name={name}
                 type={type}
+                step={step}
                 defaultValue={defaultValue ?? ''}
                 required={required}
                 className={inputClassName}

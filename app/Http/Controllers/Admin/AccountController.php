@@ -5,21 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateAccountRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class AccountController extends Controller
 {
     /**
-     * Show the administrator's account form.
+     * Show the signed-in user's account form.
      */
-    public function edit(): Response
+    public function edit(Request $request): Response
     {
-        return Inertia::render('admin/account');
+        return Inertia::render('admin/account', [
+            'identityManagedByProfile' => $request->user()?->member !== null,
+        ]);
     }
 
     /**
-     * Update the administrator's name, email, and optionally password.
+     * Update the user's password, and for non-members their name and email.
      */
     public function update(UpdateAccountRequest $request): RedirectResponse
     {
