@@ -151,7 +151,7 @@ function Brand({ logo, subtitle }: { logo: string | null; subtitle: string }) {
             )}
             <span className="flex min-w-0 flex-col">
                 <span className="truncate font-serif text-title leading-tight font-bold text-on-primary">
-                    District Admin
+                    District III
                 </span>
                 <span className="truncate text-label-sm tracking-widest text-secondary-fixed uppercase">
                     {subtitle}
