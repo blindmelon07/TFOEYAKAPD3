@@ -1,0 +1,97 @@
+{
+  "_fonts-CBaJ2ti1.css": {
+    "file": "assets/fonts-CBaJ2ti1.css",
+    "src": "_fonts-CBaJ2ti1.css"
+  },
+  "_inter-400-normal-C38fXH4l.woff2": {
+    "file": "assets/inter-400-normal-C38fXH4l.woff2",
+    "src": "_inter-400-normal-C38fXH4l.woff2"
+  },
+  "_inter-400-normal-CyCys3Eg.woff": {
+    "file": "assets/inter-400-normal-CyCys3Eg.woff",
+    "src": "_inter-400-normal-CyCys3Eg.woff"
+  },
+  "_inter-600-normal-CiBQ2DWP.woff": {
+    "file": "assets/inter-600-normal-CiBQ2DWP.woff",
+    "src": "_inter-600-normal-CiBQ2DWP.woff"
+  },
+  "_inter-600-normal-LgqL8muc.woff2": {
+    "file": "assets/inter-600-normal-LgqL8muc.woff2",
+    "src": "_inter-600-normal-LgqL8muc.woff2"
+  },
+  "_inter-700-normal-BLAVimhd.woff": {
+    "file": "assets/inter-700-normal-BLAVimhd.woff",
+    "src": "_inter-700-normal-BLAVimhd.woff"
+  },
+  "_inter-700-normal-Yt3aPRUw.woff2": {
+    "file": "assets/inter-700-normal-Yt3aPRUw.woff2",
+    "src": "_inter-700-normal-Yt3aPRUw.woff2"
+  },
+  "_merriweather-400-italic-Cq-nJhum.woff": {
+    "file": "assets/merriweather-400-italic-Cq-nJhum.woff",
+    "src": "_merriweather-400-italic-Cq-nJhum.woff"
+  },
+  "_merriweather-400-italic-CuD3zK4B.woff2": {
+    "file": "assets/merriweather-400-italic-CuD3zK4B.woff2",
+    "src": "_merriweather-400-italic-CuD3zK4B.woff2"
+  },
+  "_merriweather-400-normal-CvqO63Ah.woff": {
+    "file": "assets/merriweather-400-normal-CvqO63Ah.woff",
+    "src": "_merriweather-400-normal-CvqO63Ah.woff"
+  },
+  "_merriweather-400-normal-G4kZaoXi.woff2": {
+    "file": "assets/merriweather-400-normal-G4kZaoXi.woff2",
+    "src": "_merriweather-400-normal-G4kZaoXi.woff2"
+  },
+  "_merriweather-700-italic-CBHFNGAk.woff": {
+    "file": "assets/merriweather-700-italic-CBHFNGAk.woff",
+    "src": "_merriweather-700-italic-CBHFNGAk.woff"
+  },
+  "_merriweather-700-italic-D8D7WEYy.woff2": {
+    "file": "assets/merriweather-700-italic-D8D7WEYy.woff2",
+    "src": "_merriweather-700-italic-D8D7WEYy.woff2"
+  },
+  "_merriweather-700-normal-D4-nzrAh.woff": {
+    "file": "assets/merriweather-700-normal-D4-nzrAh.woff",
+    "src": "_merriweather-700-normal-D4-nzrAh.woff"
+  },
+  "_merriweather-700-normal-DoUP8Ce-.woff2": {
+    "file": "assets/merriweather-700-normal-DoUP8Ce-.woff2",
+    "src": "_merriweather-700-normal-DoUP8Ce-.woff2"
+  },
+  "_yellowtail-400-normal-BfFX3xIh.woff2": {
+    "file": "assets/yellowtail-400-normal-BfFX3xIh.woff2",
+    "src": "_yellowtail-400-normal-BfFX3xIh.woff2"
+  },
+  "_yellowtail-400-normal-qKkxeRph.woff": {
+    "file": "assets/yellowtail-400-normal-qKkxeRph.woff",
+    "src": "_yellowtail-400-normal-qKkxeRph.woff"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DKxAMrCH.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.tsx": {
+    "file": "assets/app-CxdMi6g7.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/welcome.tsx"
+    ]
+  },
+  "resources/js/pages/welcome.tsx": {
+    "file": "assets/welcome-DWi7P361.js",
+    "name": "welcome",
+    "src": "resources/js/pages/welcome.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  }
+}
