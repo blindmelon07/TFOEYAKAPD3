@@ -10,5 +10,5 @@ export type User = {
 };
 
 export type Auth = {
-    user: User;
+    user: Pick<User, 'id' | 'name' | 'email'> | null;
 };

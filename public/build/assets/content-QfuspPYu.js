@@ -1,0 +1,1 @@
+var e={primary:`bg-primary`,"primary-container":`bg-primary-container`,secondary:`bg-secondary`,"secondary-container":`bg-secondary-container`},t={primary:`Deep navy`,"primary-container":`Navy`,secondary:`Dark gold`,"secondary-container":`Gold`};export{t as n,e as t};

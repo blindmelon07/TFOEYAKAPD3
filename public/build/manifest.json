@@ -1,7 +1,36 @@
 {
+  "_admin-layout-DRfsHPk0.js": {
+    "file": "assets/admin-layout-DRfsHPk0.js",
+    "name": "admin-layout",
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js"
+    ]
+  },
+  "_admin-resources-BejfKcwl.js": {
+    "file": "assets/admin-resources-BejfKcwl.js",
+    "name": "admin-resources",
+    "imports": [
+      "_routes-BZgSvp2g.js",
+      "_admin-layout-DRfsHPk0.js",
+      "_content-QfuspPYu.js"
+    ]
+  },
+  "_content-QfuspPYu.js": {
+    "file": "assets/content-QfuspPYu.js",
+    "name": "content"
+  },
   "_fonts-CBaJ2ti1.css": {
     "file": "assets/fonts-CBaJ2ti1.css",
     "src": "_fonts-CBaJ2ti1.css"
+  },
+  "_form-fields-OMXhg1Pk.js": {
+    "file": "assets/form-fields-OMXhg1Pk.js",
+    "name": "form-fields",
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js"
+    ]
   },
   "_inter-400-normal-C38fXH4l.woff2": {
     "file": "assets/inter-400-normal-C38fXH4l.woff2",
@@ -59,6 +88,13 @@
     "file": "assets/merriweather-700-normal-DoUP8Ce-.woff2",
     "src": "_merriweather-700-normal-DoUP8Ce-.woff2"
   },
+  "_routes-BZgSvp2g.js": {
+    "file": "assets/routes-BZgSvp2g.js",
+    "name": "routes",
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
   "_yellowtail-400-normal-BfFX3xIh.woff2": {
     "file": "assets/yellowtail-400-normal-BfFX3xIh.woff2",
     "src": "_yellowtail-400-normal-BfFX3xIh.woff2"
@@ -68,7 +104,7 @@
     "src": "_yellowtail-400-normal-qKkxeRph.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DKxAMrCH.css",
+    "file": "assets/app-CajMmc1q.css",
     "name": "app",
     "names": [
       "app.css"
@@ -77,21 +113,88 @@
     "isEntry": true
   },
   "resources/js/app.tsx": {
-    "file": "assets/app-CxdMi6g7.js",
+    "file": "assets/app-DZsgW0VG.js",
     "name": "app",
     "src": "resources/js/app.tsx",
     "isEntry": true,
     "dynamicImports": [
+      "resources/js/pages/admin/account.tsx",
+      "resources/js/pages/admin/content/form.tsx",
+      "resources/js/pages/admin/content/index.tsx",
+      "resources/js/pages/admin/settings.tsx",
+      "resources/js/pages/auth/login.tsx",
       "resources/js/pages/welcome.tsx"
     ]
   },
+  "resources/js/pages/admin/account.tsx": {
+    "file": "assets/account-DRyAZt47.js",
+    "name": "account",
+    "src": "resources/js/pages/admin/account.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_form-fields-OMXhg1Pk.js",
+      "_admin-layout-DRfsHPk0.js"
+    ]
+  },
+  "resources/js/pages/admin/content/form.tsx": {
+    "file": "assets/form-DC1ptXJS.js",
+    "name": "form",
+    "src": "resources/js/pages/admin/content/form.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_form-fields-OMXhg1Pk.js",
+      "_admin-layout-DRfsHPk0.js",
+      "_admin-resources-BejfKcwl.js"
+    ]
+  },
+  "resources/js/pages/admin/content/index.tsx": {
+    "file": "assets/content-BUPPvkKz.js",
+    "name": "content",
+    "src": "resources/js/pages/admin/content/index.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_admin-layout-DRfsHPk0.js",
+      "_admin-resources-BejfKcwl.js"
+    ]
+  },
+  "resources/js/pages/admin/settings.tsx": {
+    "file": "assets/settings-BS261SQM.js",
+    "name": "settings",
+    "src": "resources/js/pages/admin/settings.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_form-fields-OMXhg1Pk.js",
+      "_admin-layout-DRfsHPk0.js"
+    ]
+  },
+  "resources/js/pages/auth/login.tsx": {
+    "file": "assets/login-DM5KVah0.js",
+    "name": "login",
+    "src": "resources/js/pages/auth/login.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_form-fields-OMXhg1Pk.js"
+    ]
+  },
   "resources/js/pages/welcome.tsx": {
-    "file": "assets/welcome-DWi7P361.js",
+    "file": "assets/welcome-tjEkUaps.js",
     "name": "welcome",
     "src": "resources/js/pages/welcome.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.tsx"
+      "resources/js/app.tsx",
+      "_routes-BZgSvp2g.js",
+      "_content-QfuspPYu.js"
     ]
   }
 }
